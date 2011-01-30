@@ -40,9 +40,9 @@ file_002=no
 file_003=no
 [FILE_INFO]
 file_000=main.c
-file_001=adc_read.c
+file_001=init.c
 file_002=pins.h
-file_003=adc_read.h
+file_003=init.h
 [SUITE_INFO]
 suite_guid={479DDE59-4D56-455E-855E-FFF59A3DB57E}
 suite_state=
