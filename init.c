@@ -9,4 +9,9 @@ void Pin_Init()
 	LED2Tris = 0;
 	LED3Tris = 0;
 	LED4Tris = 0;
+	
+	MS1Tris = 0;
+	ENTris = 0;
+	DIRTris = 0;
+	StepTris = 0;
 }

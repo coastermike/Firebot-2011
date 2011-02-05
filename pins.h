@@ -22,7 +22,14 @@
 
 
 //Stepper
-
+#define MS1 PORTFbits.RF0
+#define MS1Tris TRISFbits.TRISF0
+#define StepEN PORTFbits.RF1
+#define ENTris TRISFbits.TRISF1
+#define StepDIR PORTGbits.RG0
+#define DIRTris TRISGbits.TRISG0
+#define Step PORTGbits.RG1
+#define StepTris TRISGbits.TRISG1
 
 //Analog
 //Gyro
