@@ -2,6 +2,7 @@
 #include "pins.h"
 #include "init.h"
 #include "timer.h"
+#include "adc_read.h"
 
 //Config Bits set here
 //Reference p24HJ128GP210A.h
@@ -21,21 +22,17 @@ _FICD(ICS_PGD2 & JTAGEN_OFF)
 #define Pause_Time  0xffff
 
 
-void main(void)
+int main(void)
 {
 	
 	int i=0;
-	OSCCON=OSCCON | 0b0000000000000001;
+//	OSCCON=OSCCON | 0b0000000000000001;
 	Pin_Init();
 	Timer_Init();
-	PORTG = 0xFFFF;
+	Adc_Init();
+	PORTG = 0x0000;
 	while(1)
 	{
-		LED2=1;
-		for(i=0; i<On_Time;i++) 
-		{}
-		LED2=0;
-		for(i=0; i<On_Time;i++) 
-		{}
+		Adc_Read(1);
 	}	
 }	

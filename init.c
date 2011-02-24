@@ -14,4 +14,8 @@ void Pin_Init()
 	ENTris = 0;
 	DIRTris = 0;
 	StepTris = 0;
+	
+	//analog pins
+	IR1 = 1;
+	IR2 = 1;
 }

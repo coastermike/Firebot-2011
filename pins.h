@@ -39,7 +39,8 @@
 
 
 //IR Sensors
-
+#define IR1 TRISBbits.TRISB0
+#define IR2 TRISBbits.TRISB1
 
 //Fire Sensors
 

@@ -18,9 +18,9 @@ void Timer_Init(void) //set up timers and interrupts
 	
 }	
 
-void __attribute__((__interrupt__, __shadow__)) _T1Interrupt(void)
+//Status LED, 1sec period
+void __attribute__((__interrupt__)) _T1Interrupt(void)
 {
 	LED1=~LED1;
-	TMR1 = 0x00;
 	IFS0bits.T1IF = 0;
 }	
