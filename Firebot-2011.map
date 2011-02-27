@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv3_24 (A) -
+Microchip Technology Inc, vv3_24 (A) 9
 
 Tool Name:
   c:\program files\microchip\mplab c30\bin\bin\..\bin/pic30-coff-ld.exe
@@ -24,9 +24,6 @@ Command:
   -LC:\Program Files\Microchip\MPLAB C30\lib \
   -Tp24HJ128GP210A.gld.00 \
   --defsym=__MPLAB_BUILD=1 \
-  --defsym=__MPLAB_DEBUG=1 \
-  --defsym=__MPLAB_DEBUGGER_PK3=1 \
-  --defsym=__ICD2RAM=1 \
   -Map=Firebot-2011.map \
   -start-group \
   --library=pic30-coff \
@@ -79,9 +76,8 @@ Data Memory  [Origin = 0x800, Length = 0x2000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.icd                         0x800                0x50            0x50  (80)
 
-                        Total data memory used (bytes):           0x50  (80) <1%
+                        Total data memory used (bytes):              0  (0) 
 
 
 Dynamic Memory Usage
@@ -89,9 +85,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x850                              0x1fb0  (8112)
+stack                        0x800                              0x2000  (8192)
 
-                        Maximum dynamic memory (bytes):         0x1fb0  (8112)
+                        Maximum dynamic memory (bytes):         0x2000  (8192)
 
 
 External Symbols in Program Memory (by address):
@@ -247,10 +243,6 @@ __FUID2
 
 __FUID3
  *(__FUID3.sec)
-
-.icd                0x0800         0x50
-                    0x0850                  . = (. + DEFINED (__ICD2RAM)?0x50:0x0)
- *fill*             0x0800         0x5000
 
 .comment
  *(.comment)
@@ -1278,9 +1270,6 @@ __FUID3
                     0x0230                  UART2 = 0x230
                     0x0230                  _UART2 = 0x230
                     0x0001                  __MPLAB_BUILD = 0x1
-                    0x0001                  __MPLAB_DEBUG = 0x1
-                    0x0001                  __MPLAB_DEBUGGER_PK3 = 0x1
-                    0x0001                  __ICD2RAM = 0x1
 START GROUP
 LOAD c:/program files/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a
 LOAD c:/program files/microchip/mplab c30/bin/bin/../../lib\libm-coff.a

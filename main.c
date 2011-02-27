@@ -33,6 +33,6 @@ int main(void)
 	PORTG = 0x0000;
 	while(1)
 	{
-		Adc_Read(1);
+		Adc_Read(irsensor2);
 	}	
 }	
