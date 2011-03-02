@@ -24,8 +24,6 @@ _FICD(ICS_PGD2 & JTAGEN_OFF)
 
 int main(void)
 {
-	
-	int i=0;
 //	OSCCON=OSCCON | 0b0000000000000001;
 	Pin_Init();
 	Timer_Init();
