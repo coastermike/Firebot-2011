@@ -8,70 +8,116 @@
 //* Tris sets the Tris bit for the pin. 0 is output, 1 is input.
 
 //Status LEDs
-//RG12, RG13, RG14, RG15
-#define LED1 PORTGbits.RG12
-#define LED1Tris TRISGbits.TRISG12
-#define LED2 PORTGbits.RG13
-#define LED2Tris TRISGbits.TRISG13
-#define LED3 PORTGbits.RG14
-#define LED3Tris TRISGbits.TRISG14
-#define LED4 PORTGbits.RG15
-#define LED4Tris TRISGbits.TRISG15
+#define LED1 PORTGbits.RG12	//PORTDbits.RD11
+#define LED1Tris TRISGbits.TRISG12	//TRISDbits.TRISD11
+#define LED2 PORTGbits.RG13	//PORTDbits.RD10
+#define LED2Tris TRISGbits.TRISG13 //TRISDbits.TRISD10
+#define LED3 PORTGbits.RG14	//PORTBbits.RB6
+#define LED3Tris TRISGbits.TRISG14	//TRISBbits.TRISB6
+#define LED4 PORTGbits.RG15	//PORTBbits.RB7
+#define LED4Tris TRISGbits.TRISG15	//TRISBbits.TRISB7
+
+#define LEDStatus PORTGbits.RG15
+#define LEDStatusTris TRISGbits.TRISG15
+#define LEDError PORTDbits.RD4
+#define LEDErrorTris TRISDbits.TRISD4
 
 //Switches
+#define STARTSWITCH 4
+#define STARTSWITCH_Tris TRISBbits.TRISB4
 
+//Relay
+#define RELAY PORTBbits.RB5
+#define RELAYTris TRISBbits.TRISB5
 
 //Stepper
-#define MS1 PORTFbits.RF0
-#define MS1Tris TRISFbits.TRISF0
-#define StepEN PORTFbits.RF1
-#define ENTris TRISFbits.TRISF1
-#define StepDIR PORTGbits.RG0
-#define DIRTris TRISGbits.TRISG0
-#define Step PORTGbits.RG1
-#define StepTris TRISGbits.TRISG1
+#define MS1_L PORTFbits.RF3
+#define MS1_LTris TRISFbits.TRISF3
+#define StepEn_L PORTFbits.RF7
+#define StepEn_LTris TRISFbits.TRISF7
+#define Dir_L PORTFbits.RF8
+#define Dir_LTris TRISFbits.TRISF8
+#define Step_L PORTFbits.RF2
+#define Step_LTris TRISFbits.TRISF2
+
+#define MS1_R PORTDbits.RD1
+#define MS1_RTris TRISDbits.TRISD1
+#define StepEn_R PORTDbits.RD12
+#define StepEn_RTris TRISDbits.TRISD12
+#define Dir_R PORTDbits.RD3
+#define Dir_RTris TRISDbits.TRISD3
+#define Step_R PORTDbits.RD2
+#define Step_RTris TRISDbits.TRISD2
 
 //Analog
-#define irsensor1 0
-#define irsensor2 1
-#define IR_RI_F	29
-#define IR_FR_R 30
-#define FIRE_R	31
-#define LIGHT_R 16
-#define FIRE_M 	17
-#define LIGHT_L 18
-#define FIRE_L 	19
-#define IR_FR_L 20
-#define IR_LE_F 21
-#define SPARE 	4
+//Gyro
 #define GYRO_Z 	11
-#define IR_RE_L 14
-#define IR_LE_R 15
-#define LIGHT_RE 22
-#define IR_RE_R 23
-#define IR_RI_R 24
-#define SOUND 	25
+#define GYRO_ZTris TRISBbits.TRISB11
+
+#define GyroSelfTest PORTFbits.RF6
+#define GyroSelfTestTris TRISFbits.TRISF6
+#define GyroSleep PORTGbits.RG3
+#define GyroSleepTris TRISGbits.TRISG3
+#define GyroHPReset PORTGbits.RG2
+#define GyroHPResetTris TRISGbits.TRISG2
+
+//Accelerometer
 #define ACCEL_Z 26
 #define ACCEL_Y 27
 #define ACCEL_X 28
+#define ACCEL_ZTris TRISEbits.TRISE2
+#define ACCEL_YTris TRISEbits.TRISE3
+#define ACCEL_XTris TRISEbits.TRISE4
 
-//Gyro
-
-
-//Accelerometer
-
+#define AccelSlp PORTGbits.RG12
+#define AccelSlpTris TRISGbits.TRISG12
+#define AccelGS PORTGbits.RG13
+#define AccelGSTris TRISGbits.TRISG13
 
 //IR Sensors
-#define IR1 TRISBbits.TRISB0
+#define irsensor1 0	//for PIC proto board
+#define irsensor2 1
+#define IR1 TRISBbits.TRISB0 //for PIC proto board
 #define IR2 TRISBbits.TRISB1
 
-//Fire Sensors
+#define IR_RI_F	29
+#define IR_FR_R 30
+#define IR_FR_L 20
+#define IR_LE_F 21
+#define IR_RE_L 14
+#define IR_LE_R 15
+#define IR_RE_R 23
+#define IR_RI_R 24
 
+#define IR_RI_F_Tris TRISEbits.TRISE5
+#define IR_FR_R_Tris TRISEbits.TRISE6
+#define IR_FR_L_Tris TRISAbits.TRISA12
+#define IR_LE_F_Tris TRISAbits.TRISA13
+#define IR_RE_L_Tris TRISBbits.TRISB14
+#define IR_LE_R_Tris TRISBbits.TRISB15
+#define IR_RE_R_Tris TRISAbits.TRISA7
+#define IR_RI_R_Tris TRISEbits.TRISE1
+
+//Fire Sensors
+#define FIRE_R	31
+#define FIRE_M 	17
+#define FIRE_L 	19
+
+#define FIRE_R_Tris TRISEbits.TRISE7
+#define FIRE_M_Tris TRISCbits.TRISC2
+#define FIRE_L_Tris TRISCbits.TRISC4
+
+//Light
+#define LIGHT_R 16
+#define LIGHT_L 18
+#define LIGHT_RE 22
+
+#define LIGHT_R_Tris TRISCbits.TRISC1
+#define LIGHT_L_Tris TRISCbits.TRISC3
+#define LIGHT_RE_Tris TRISAbits.TRISA6
 
 //Tone detect
-
-
-//Battery
-
+#define SOUND 	25
+#define SOUND_Tris TRISEbits.TRISE1
 
 #endif
