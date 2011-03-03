@@ -1,13 +1,18 @@
 #include <p24HJ128GP210A.h>
 #include "pins.h"
+#include "timer.h"
 
 //timer2-Left stepper
 //timer3-Right Stepper
 //timer4-relay PWM
 //timer5-status LED
+volatile unsigned int distanceL;
+volatile unsigned int distanceR;
 
 void Timer_Init(void) //set up timers and interrupts
 {
+	resetDistances();
+	
 	//disable interrupt nesting
 	INTCON1bits.NSTDIS = 1;
 	
@@ -74,15 +79,19 @@ void Timer_Init(void) //set up timers and interrupts
 }	
 
 //Left stepper
-void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void)
+void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void)
 {
+	Step_L = ~Step_L;
+	distanceL++;
 	LED4=~LED4;
 	IFS0bits.T2IF = 0;	
 }
 
 //Right stepper
-void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
+void __attribute__((__interrupt__, auto_psv)) _T3Interrupt(void)
 {
+	Step_R = ~Step_R;
+	distanceR++;
 	LED3=~LED3;
 	IFS0bits.T3IF = 0;
 }	
@@ -100,3 +109,19 @@ void __attribute__((__interrupt__, no_auto_psv)) _T5Interrupt(void)
 	LED1=~LED1;
 	IFS1bits.T5IF = 0;
 }	
+
+int getDistanceL(void)
+{
+	return distanceL;
+}
+
+int getDistanceR(void)
+{
+	return distanceR;
+}
+
+void resetDistances(void)
+{
+	distanceL = 0;
+	distanceR = 0;
+}

@@ -17,11 +17,6 @@ _FWDT(WDTPOST_PS32768 & WDTPRE_PR128 & WINDIS_OFF & FWDTEN_OFF & PLLKEN_OFF)
 _FPOR(FPWRT_PWR128)
 _FICD(ICS_PGD2 & JTAGEN_OFF)
 
-#define On_Time  0xffff
-#define Off_Time  0xffff
-#define Pause_Time  0xffff
-
-
 int main(void)
 {
 //	OSCCON=OSCCON | 0b0000000000000001;

@@ -1,5 +1,7 @@
 #include <p24HJ128GP210A.h>
 #include "pins.h"
+#include "timer.h"
+#include "stepper.h"
 
 void StepperEnable (void)
 {
@@ -22,24 +24,28 @@ void SetMS (char LMS1, char RMS1)
 
 void SetSpeed (int leftSpeed, int rightSpeed)
 {
+	TMR2 = 0x00;
 	PR2 = leftSpeed;
+	TMR3 = 0x00;
 	PR3 = rightSpeed;
 }
 
 //sets speed and direction
 //direction 0: CW; 1: CCW
-void SetSpeedDir (int leftSpeed, bit dirL, int rightSpeed, bit dirR)
+void SetSpeedDir (int leftSpeed, char dirL, int rightSpeed, char dirR)
 {
 	Dir_L = dirL;
 	Dir_R = dirR;
+	TMR2 = 0x00;
 	PR2 = leftSpeed;
+	TMR3 = 0x00;
 	PR3 = rightSpeed;
 }
 
-void SetTurn (int speed, bit direction, char angle)
+void SetTurn (int speed, char direction, char angle)
 {
-	stepcount = 0;
-	if(direction = 0) //CW
+	resetDistances();
+	if((direction = 0)) //CW
 	{	
 		SetSpeedDir (speed, 1, speed, 1);
 	}
@@ -47,9 +53,7 @@ void SetTurn (int speed, bit direction, char angle)
 	{
 		SetSpeedDir (speed, 0, speed, 0);
 	}
-	while(stepcount < angle){}
+	while(getDistanceL() < angle){} //keep turning on angle is reached
 	
 	SetSpeed(0,0);
 }
-
-			
