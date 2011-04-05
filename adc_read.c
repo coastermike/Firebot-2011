@@ -5,7 +5,7 @@
 void Adc_Init()
 {
 	AD1PCFGH = 0x0000;
-	AD1PCFGL = 0xFFFC; //0x37EC; //0x37EF;
+	AD1PCFGL = 0x37EF; //0x37EF;
 	AD1CON1bits.AD12B = 1;
 	AD1CON2bits.CHPS = 0b00;
 	AD1CON2bits.VCFG = 0b000;
@@ -26,3 +26,54 @@ unsigned int Adc_Read(int ch)
 	{}
 	return ADC1BUF0;
 }	
+
+unsigned int Adc_IR(int ch)
+{
+	int k=0;
+	unsigned int value = 0, raw = 0;
+	int adc_table[NUMADC][2] = 
+	{
+		{2405, 4},
+		{2073, 5},
+		{1790, 6},
+		{1540, 7},
+		{1356, 8},
+		{1267, 9},
+		{1113, 10},
+		{1000, 11},
+		{913, 12},
+		{808, 13},
+		{779, 14},
+		{739, 15},
+		{717, 16},
+		{686, 17},
+		{635, 18},
+		{623, 19},
+		{592, 20},
+		{576, 21}
+	};
+	
+	raw = Adc_Read(ch);
+	for(k=1; k < NUMADC; k++)
+	{
+		if(adc_table[k][0] < raw)	
+		{
+			value = adc_table[k-1][1] + (raw - adc_table[k-1][0]) *
+				(adc_table[k][1] - adc_table[k-1][1]) / (adc_table[k][0] - adc_table[k-1][0]);
+			break;
+		}
+	}	
+	if (k == NUMADC)
+	{
+		value = adc_table[k-1][1];
+	}
+	if (value < 4)
+	{
+		value = 3;
+	}
+	else if(value > 30)
+	{
+		value = 30;
+	}			
+	return value;
+}

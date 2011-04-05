@@ -8,14 +8,14 @@
 //* Tris sets the Tris bit for the pin. 0 is output, 1 is input.
 
 //Status LEDs
-#define LED1 PORTGbits.RG12	//PORTDbits.RD11
-#define LED1Tris TRISGbits.TRISG12	//TRISDbits.TRISD11
-#define LED2 PORTGbits.RG13	//PORTDbits.RD10
-#define LED2Tris TRISGbits.TRISG13 //TRISDbits.TRISD10
-#define LED3 PORTGbits.RG14	//PORTBbits.RB6
-#define LED3Tris TRISGbits.TRISG14	//TRISBbits.TRISB6
-#define LED4 PORTGbits.RG15	//PORTBbits.RB7
-#define LED4Tris TRISGbits.TRISG15	//TRISBbits.TRISB7
+#define LED1 PORTDbits.RD11
+#define LED1Tris TRISDbits.TRISD11
+#define LED2 PORTDbits.RD10
+#define LED2Tris TRISDbits.TRISD10
+#define LED3 PORTBbits.RB6
+#define LED3Tris TRISBbits.TRISB6
+#define LED4 PORTBbits.RB7
+#define LED4Tris TRISBbits.TRISB7
 
 #define LEDStatus PORTGbits.RG15
 #define LEDStatusTris TRISGbits.TRISG15
@@ -75,11 +75,6 @@
 #define AccelGSTris TRISGbits.TRISG13
 
 //IR Sensors
-#define irsensor1 0	//for PIC proto board
-#define irsensor2 1
-#define IR1 TRISBbits.TRISB0 //for PIC proto board
-#define IR2 TRISBbits.TRISB1
-
 #define IR_RI_F	29
 #define IR_FR_R 30
 #define IR_FR_L 20

@@ -1,6 +1,7 @@
 #include <p24HJ128GP210A.h>
 #include "pins.h"
 #include "timer.h"
+#include "start_command.h"
 
 //timer2-Left stepper
 //timer3-Right Stepper
@@ -22,7 +23,7 @@ void Timer_Init(void) //set up timers and interrupts
 	T5CONbits.TGATE = 0;
 	T5CONbits.TCKPS = 0b11;	//prescaler 1:256
 	TMR5 = 0x00;
-	PR5 = 0x4C4B;	//Value to generate interrupt - 0.5sec
+	PR5 = 0x5C4B;	//Value to generate interrupt - 0.5sec
 	
 	//setup timer4 for relay PWM
 	T4CONbits.TON = 0;
@@ -31,24 +32,33 @@ void Timer_Init(void) //set up timers and interrupts
 	T4CONbits.TGATE = 0;
 	T4CONbits.TCKPS = 0b11;	//prescaler 1:256
 	TMR4 = 0x00;
-	PR4 = 0x0C4B;	//Value to generate interrupt - Xsec
+	PR4 = 0x5C4B;	//Value to generate interrupt - Xsec
+	
+	//setup timer6 to count stuff (like start switch timing)
+	T6CONbits.TON = 0;
+	T6CONbits.TON = 0;
+	T6CONbits.T32 = 0;
+	T6CONbits.TCS = 0;
+	T6CONbits.TGATE = 0;
+	T6CONbits.TCKPS = 0b11;	//prescaler 1:256
+	TMR6 = 0x00;
 	
 	//setup timer2 for Left Stepper
 	T2CONbits.TON = 0;
 	T2CONbits.T32 = 0;
 	T2CONbits.TCS = 0;
 	T2CONbits.TGATE = 0;
-	T2CONbits.TCKPS = 0b11;	//prescaler 1:256
+	T2CONbits.TCKPS = 0b00;	//prescaler 1:256
 	TMR2 = 0x00;
-	PR2 = 0x404B;	//Value to generate interrupt - Xsec
+	PR2 = 0x1000;	//Value to generate interrupt - Xsec
 	
 	//setup timer3 for Right Stepper
 	T3CONbits.TON = 0;
 	T3CONbits.TCS = 0;
 	T3CONbits.TGATE = 0;
-	T3CONbits.TCKPS = 0b11;	//prescaler 1:256
+	T3CONbits.TCKPS = 0b00;	//prescaler 1:256
 	TMR3 = 0x00;
-	PR3 = 0xE04B;	//Value to generate interrupt - Xsec
+	PR3 = 0x1000;	//Value to generate interrupt - Xsec
 	
 	//Setup timer2 interrupt
 	IPC1bits.T2IP = 4;
@@ -69,6 +79,11 @@ void Timer_Init(void) //set up timers and interrupts
 	IPC7bits.T5IP = 2;
 	IFS1bits.T5IF = 0;
 	IEC1bits.T5IE = 1;
+	
+	//Setup timer6 interrupt
+	IPC11bits.T6IP = 4;
+	IFS2bits.T6IF = 0;
+	IEC2bits.T6IE = 1;
 	
 	//Turn on timers
 	T4CONbits.TON = 1;
@@ -99,17 +114,26 @@ void __attribute__((__interrupt__, auto_psv)) _T3Interrupt(void)
 //Relay
 void __attribute__((__interrupt__, no_auto_psv)) _T4Interrupt(void)
 {
-	LED2=~LED2;
+//	LED2=~LED2;
 	IFS1bits.T4IF = 0;
 }
 	
 //Status LED, 1sec period
 void __attribute__((__interrupt__, no_auto_psv)) _T5Interrupt(void)
 {
-	LED1=~LED1;
+	LEDStatus=~LEDStatus;
 	IFS1bits.T5IF = 0;
 }	
 
+void __attribute__((__interrupt__, no_auto_psv)) _T6Interrupt(void)
+{
+	if(get_start_state() == 1)
+	{
+		set_start_state(2);
+	}	
+	IFS2bits.T6IF = 0;
+}
+	
 int getDistanceL(void)
 {
 	return distanceL;

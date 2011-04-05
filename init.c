@@ -26,9 +26,6 @@ void Pin_Init()
 	Step_RTris = 0;
 	
 	//analog pins
-	IR1 = 1;
-	IR2 = 1;
-	
 	GYRO_ZTris = 1;
 	GyroSelfTestTris = 0;
 	GyroSleepTris = 0;
@@ -39,6 +36,7 @@ void Pin_Init()
 	ACCEL_XTris = 1;
 	AccelSlpTris = 0;
 	AccelGSTris = 0;
+	AccelGS = 0;
 	
 	IR_RI_F_Tris = 1;
 	IR_FR_R_Tris = 1;
