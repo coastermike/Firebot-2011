@@ -6,7 +6,7 @@ char go_now = 0, start_state = 0;
 
 void start()
 {
-	int temp = 0;
+	int temp = 0, i, lightL_total = 0, lightR_total = 0, lightRe_total = 0;
 	if(Adc_Read(SOUND) > 2000 && start_state == 0)
 	{
 		PR6=0x9896;
@@ -28,6 +28,13 @@ void start()
 		}			
 		go_now = 1;
 		PR5 = 0x5C4B;
+		for(i=0; i < 10; i++)
+		{
+			lightL_total = Adc_Read(LIGHT_L) + lightL_total;
+			lightR_total = Adc_Read(LIGHT_R) + lightR_total;
+			lightRe_total = Adc_Read(LIGHT_RE) + lightRe_total;
+		}
+		setLightCalibration(lightL_total/10, lightR_total/10, lightRe_total/10);	
 		start_state = 3;
 	} 	
 	if(start_state == 2)
@@ -35,6 +42,7 @@ void start()
 		while(Adc_Read(SOUND) > 2000){}
 		go_now = 1;
 		PR5 = 0x5C4B;
+		
 		start_state = 3;
 	}
 	if(Adc_Read(SOUND) < 2000 && start_state == 1)

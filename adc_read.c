@@ -2,6 +2,8 @@
 #include <p24HJ128GP210A.h>
 #include "adc_read.h"
 
+unsigned int lightL, lightR, lightRe;
+
 int adc_table[NUMADC][2] = 
 	{
 		{2405, 4},
@@ -77,4 +79,26 @@ unsigned int Adc_IR(int ch)
 		value = 30;
 	}			
 	return value;
+}
+
+void setLightCalibration(int left, int right, int rear)
+{
+	lightL = left;
+	lightR = right;
+	lightRe = rear;
+}
+
+unsigned int getLightF_L()
+{
+	return lightL;
+}
+	
+unsigned int getLightF_R()
+{
+	return lightR;
+}
+	
+unsigned int getLightR()
+{
+	return lightRe;
 }

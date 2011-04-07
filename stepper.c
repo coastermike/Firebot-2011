@@ -8,8 +8,8 @@ unsigned int frontL = 0, frontR = 0, rightF = 0, rightR = 0, leftF = 0, leftR = 
 
 void SetSpeed (int leftSpeed, int rightSpeed)
 {
-	PR2 = leftSpeed;
-	PR3 = rightSpeed;
+	PR2 = leftSpeed*-53+60000;
+	PR3 = rightSpeed*-53+60000;
 }
 
 //sets speed and direction
@@ -18,8 +18,8 @@ void SetSpeedDir (int leftSpeed, char dirL, int rightSpeed, char dirR)
 {
 	Dir_L = dirL;
 	Dir_R = dirR;
-	PR2 = leftSpeed;
-	PR3 = rightSpeed;
+	PR2 = leftSpeed*-53+60000;
+	PR3 = rightSpeed*-53+60000;
 }
 
 void SetTurn (int speed, char direction, char angle)
@@ -62,28 +62,26 @@ void FollowRightWall (unsigned int speed)
 	
 	if(frontL < 15 && frontR < 15)
 	{
-		SetTurn(20000, 1, 50);
-		
-		
+		SetSpeedDir(660, 1, 660, 0);		
 	}	
 	else if(frontL < 15 || frontR < 15)
 	{
-		SetSpeedDir(30000, 0, 10000, 0);
+		SetSpeedDir(566, 0, speed, 0);
 	}
 	else if(rightF > 11)
 	{
-		SetSpeedDir(10000, 0, 25000, 0);
+		SetSpeedDir(speed, 0, 660, 0);
 	}
 	else if((rightF-rightR) < -1)
 	{
-		SetSpeedDir(25000, 0, 10000, 0);
+		SetSpeedDir(660, 0, speed, 0);
 	}
 	else if((rightF-rightR) > 1)
 	{
-		SetSpeedDir(10000, 0, 25000, 0);
+		SetSpeedDir(speed, 0, 660, 0);
 	}
 	else
 	{
-		SetSpeedDir(10000, 0, 10000, 0);
+		SetSpeedDir(speed, 0, speed, 0);
 	}	
 }
