@@ -23,7 +23,7 @@
 #define LEDErrorTris TRISDbits.TRISD4
 
 //Switches
-#define STARTSWITCH 4
+#define STARTSWITCH PORTBbits.RB4
 #define STARTSWITCH_Tris TRISBbits.TRISB4
 
 //Relay

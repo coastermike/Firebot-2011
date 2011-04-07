@@ -6,6 +6,7 @@ char go_now = 0, start_state = 0;
 
 void start()
 {
+	int temp = 0;
 	if(Adc_Read(SOUND) > 2000 && start_state == 0)
 	{
 		PR6=0x9896;
@@ -14,14 +15,26 @@ void start()
 	}
 	if(STARTSWITCH && start_state == 0)
 	{
-		while(STARTSWITCH){}
+		while(temp < 500)
+		{
+			if(!STARTSWITCH)
+			{
+				temp++;
+			}
+			else
+			{
+				temp = 0;
+			}
+		}			
 		go_now = 1;
+		PR5 = 0x5C4B;
 		start_state = 3;
 	} 	
 	if(start_state == 2)
 	{
 		while(Adc_Read(SOUND) > 2000){}
 		go_now = 1;
+		PR5 = 0x5C4B;
 		start_state = 3;
 	}
 	if(Adc_Read(SOUND) < 2000 && start_state == 1)

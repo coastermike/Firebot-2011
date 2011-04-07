@@ -23,7 +23,7 @@ void Timer_Init(void) //set up timers and interrupts
 	T5CONbits.TGATE = 0;
 	T5CONbits.TCKPS = 0b11;	//prescaler 1:256
 	TMR5 = 0x00;
-	PR5 = 0x5C4B;	//Value to generate interrupt - 0.5sec
+	PR5 = 0xB896;	//Value to generate interrupt - 0.5sec
 	
 	//setup timer4 for relay PWM
 	T4CONbits.TON = 0;
@@ -50,7 +50,7 @@ void Timer_Init(void) //set up timers and interrupts
 	T2CONbits.TGATE = 0;
 	T2CONbits.TCKPS = 0b00;	//prescaler 1:256
 	TMR2 = 0x00;
-	PR2 = 0x1000;	//Value to generate interrupt - Xsec
+	PR2 = 0x0000;	//Value to generate interrupt - Xsec
 	
 	//setup timer3 for Right Stepper
 	T3CONbits.TON = 0;
@@ -58,7 +58,7 @@ void Timer_Init(void) //set up timers and interrupts
 	T3CONbits.TGATE = 0;
 	T3CONbits.TCKPS = 0b00;	//prescaler 1:256
 	TMR3 = 0x00;
-	PR3 = 0x1000;	//Value to generate interrupt - Xsec
+	PR3 = 0x0000;	//Value to generate interrupt - Xsec
 	
 	//Setup timer2 interrupt
 	IPC1bits.T2IP = 4;
