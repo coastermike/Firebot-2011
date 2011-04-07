@@ -5,9 +5,10 @@
 void Adc_Init();
 unsigned int Adc_Read(int ch);
 unsigned int Adc_IR(int ch);
-void setLightCalibration(int left, int right, int rear);
-unsigned int getLightF_L();
-unsigned int getLightF_R();
+void setWhiteLightCalibration();
+void setBlackLightCalibration();
+unsigned int getLightL();
 unsigned int getLightR();
+unsigned int getLightRe();
 
 #endif

@@ -8,8 +8,22 @@ unsigned int frontL = 0, frontR = 0, rightF = 0, rightR = 0, leftF = 0, leftR = 
 
 void SetSpeed (int leftSpeed, int rightSpeed)
 {
-	PR2 = leftSpeed*-53+60000;
-	PR3 = rightSpeed*-53+60000;
+	if(leftSpeed == 0)
+	{
+		PR2 = 0;
+	}
+	else
+	{	
+		PR2 = leftSpeed*-53+60000;
+	}
+	if(rightSpeed == 0)
+	{
+		PR3 = 0;
+	}
+	else
+	{		
+		PR3 = rightSpeed*-53+60000;
+	}	
 }
 
 //sets speed and direction

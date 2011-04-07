@@ -2,7 +2,7 @@
 #include <p24HJ128GP210A.h>
 #include "adc_read.h"
 
-unsigned int lightL, lightR, lightRe;
+unsigned int lightL_W, lightR_W, lightRe_W, lightL_B, lightR_B, lightRe_B, lightR, lightL, lightRe;
 
 int adc_table[NUMADC][2] = 
 	{
@@ -81,24 +81,76 @@ unsigned int Adc_IR(int ch)
 	return value;
 }
 
-void setLightCalibration(int left, int right, int rear)
+unsigned int calibrateLightL()
 {
-	lightL = left;
-	lightR = right;
-	lightRe = rear;
+	int i;
+	unsigned int light_total = 0, tempLight;
+	for(i=0; i < 10; i++)
+	{
+		tempLight = Adc_Read(LIGHT_L);
+		tempLight = Adc_Read(LIGHT_L);
+		light_total = tempLight + light_total;
+	}
+	return light_total/10;
 }
 
-unsigned int getLightF_L()
+unsigned int calibrateLightR()
+{
+	int i;
+	unsigned int light_total = 0, tempLight;
+	for(i=0; i < 10; i++)
+	{
+		tempLight = Adc_Read(LIGHT_R);
+		tempLight = Adc_Read(LIGHT_R);
+		light_total = tempLight + light_total;
+	}
+	return light_total/10;
+}
+
+unsigned int calibrateLightRe()
+{
+	int i;
+	unsigned int light_total = 0, tempLight;
+	for(i=0; i < 10; i++)
+	{
+		tempLight = Adc_Read(LIGHT_RE);
+		tempLight = Adc_Read(LIGHT_RE);
+		light_total = tempLight + light_total;
+	}
+	return light_total/10;
+}
+	
+void setWhiteLightCalibration()//white is higher
+{
+	lightL_W = calibrateLightL();
+	lightR_W = calibrateLightR();
+	lightRe_W = calibrateLightRe();
+	lightL = lightL_W - 500;
+	lightR = lightR_W - 500;
+	lightRe = lightRe_W - 500;
+}
+
+void setBlackLightCalibration()//Black is lower
+{
+	lightL_B = calibrateLightL();
+	lightR_B = calibrateLightR();
+	lightRe_B = calibrateLightRe();
+	lightL = (lightL_W + lightL_B)/2;
+	lightR = (lightR_W + lightR_B)/2;
+	lightRe = (lightRe_W + lightRe_B)/2;	
+}
+	
+unsigned int getLightL()
 {
 	return lightL;
 }
 	
-unsigned int getLightF_R()
+unsigned int getLightR()
 {
 	return lightR;
 }
 	
-unsigned int getLightR()
+unsigned int getLightRe()
 {
 	return lightRe;
 }

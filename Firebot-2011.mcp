@@ -36,6 +36,8 @@ file_008=.
 file_009=.
 file_010=.
 file_011=.
+file_012=.
+file_013=.
 [GENERATED_FILES]
 file_000=no
 file_001=no
@@ -49,6 +51,8 @@ file_008=no
 file_009=no
 file_010=no
 file_011=no
+file_012=no
+file_013=no
 [OTHER_FILES]
 file_000=no
 file_001=no
@@ -62,6 +66,8 @@ file_008=no
 file_009=no
 file_010=no
 file_011=no
+file_012=no
+file_013=no
 [FILE_INFO]
 file_000=main.c
 file_001=init.c
@@ -69,12 +75,14 @@ file_002=timer.c
 file_003=adc_read.c
 file_004=stepper.c
 file_005=start_command.c
-file_006=pins.h
-file_007=init.h
-file_008=timer.h
-file_009=adc_read.h
-file_010=stepper.h
-file_011=start_command.h
+file_006=statemachine.c
+file_007=pins.h
+file_008=init.h
+file_009=timer.h
+file_010=adc_read.h
+file_011=stepper.h
+file_012=start_command.h
+file_013=statemachine.h
 [SUITE_INFO]
 suite_guid={479DDE59-4D56-455E-855E-FFF59A3DB57E}
 suite_state=

@@ -2,6 +2,7 @@
 #include "pins.h"
 #include "timer.h"
 #include "start_command.h"
+#include "statemachine.h"
 
 //timer2-Left stepper
 //timer3-Right Stepper
@@ -9,6 +10,8 @@
 //timer5-status LED
 volatile unsigned int distanceL;
 volatile unsigned int distanceR;
+
+char tempCount = 0;
 
 void Timer_Init(void) //set up timers and interrupts
 {
@@ -127,9 +130,24 @@ void __attribute__((__interrupt__, no_auto_psv)) _T5Interrupt(void)
 
 void __attribute__((__interrupt__, no_auto_psv)) _T6Interrupt(void)
 {
-	if(get_start_state() == 1)
+	if(get_start_state() == 1 && tempCount == 0)
+	{
+		tempCount = 1;
+	}
+	else if(get_start_state() == 1 && tempCount == 1)
 	{
 		set_start_state(2);
+		tempCount = 0;
+	}
+	if(get_start_state() == 4 && tempCount == 0)
+	{
+		tempCount = 1;
+	}
+	else if (get_start_state() == 4 && tempCount == 1)
+	{
+		set_start_state(5);
+		tempCount = 0;
+		setMainState(100);
 	}	
 	IFS2bits.T6IF = 0;
 }
