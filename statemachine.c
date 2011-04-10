@@ -7,6 +7,7 @@
 
 int state = 0;
 unsigned int countLightL = 0, countLightR = 0, countLightRe = 0;
+const unsigned int NORMSPEED = 943;
 
 void stateOfMarvin()
 {
@@ -33,16 +34,8 @@ void stateOfMarvin()
 		
 	if(state == 0)
 	{
-		if((lightF_L > getLightL() || lightF_R > getLightR()) && get_start_state() != 4)
-		{
-//			if(lightF_L > getLightL())
-//			{
-//				countLightL++;
-//			}
-//			else
-//			{
-//				countLightL = 0;
-//			}		
+		if((lightF_R > getLightR()) && get_start_state() != 4)
+		{		
 			if(lightF_R > getLightR())
 			{
 				countLightR++;
@@ -55,16 +48,35 @@ void stateOfMarvin()
 			{
 				state = 1; //starting to enter room one.
 			}
-			FollowRightWall(943);	
+			FollowRightWall(NORMSPEED);	
 		}		
 		else
 		{
-			FollowRightWall(943);
+			FollowRightWall(NORMSPEED);
 		}	
 	}
 	else if (state == 1)
 	{
-		SetSpeed(0,0);
+		if(lightRe > getLightRe())
+		{		
+			if(lightRe > getLightRe())
+			{
+				countLightRe++;
+			}
+			else
+			{
+				countLightRe = 0;
+			}
+			if( countLightRe > 10)  //countLightL > 10 ||
+			{
+				state = 1; //starting to enter room one.
+			}
+			SetSpeedDir(NORMSPEED, 1, NORMSPEED, 1);	
+		}		
+		else
+		{
+			FollowRightWall(NORMSPEED);
+		}
 		//move straight til rear sensor crosses
 		state = 2;
 	}
@@ -74,30 +86,22 @@ void stateOfMarvin()
 		resetDistances();
 		while(getDistanceL() < 200)
 		{
-			SetSpeedDir(943, 0, 943, 0);		//needs to move in further
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);		//needs to move in further
 		}	
 		SetSpeed(0,0);
-		SetTurn(943, 0, 630);			//IF FIRE: goto fire state
+		SetTurn(NORMSPEED, 0, 630);			//IF FIRE: goto fire state
 		frontL = Adc_IR(IR_FR_L);
 		frontL = Adc_IR(IR_FR_L);
 		while(frontL > 14 && frontL > 14)
 		{
-			SetSpeedDir(943, 0, 943, 0);
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);
 		}
 		state = 3;	
 	}	
 	else if (state == 3)
 	{
-		if((lightF_L > getLightL() || lightF_R > getLightR()) && get_start_state() != 4)
-		{
-//			if(lightF_L > getLightL())
-//			{
-//				countLightL++;
-//			}
-//			else
-//			{
-//				countLightL = 0;
-//			}		
+		if((lightF_R > getLightR()) && get_start_state() != 4)
+		{		
 			if(lightF_R > getLightR())
 			{
 				countLightR++;
@@ -110,11 +114,11 @@ void stateOfMarvin()
 			{
 				state = 1; //starting to enter room one.
 			}
-			FollowRightWall(943);	
+			FollowRightWall(NORMSPEED);	
 		}		
 		else
 		{
-			FollowRightWall(943);
+			FollowRightWall(NORMSPEED);
 		}
 	}		
 	else if (state == 100)
