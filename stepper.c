@@ -5,6 +5,7 @@
 #include "adc_read.h"
 
 unsigned int frontL = 0, frontR = 0, rightF = 0, rightR = 0, leftF = 0, leftR = 0, temp = 0;
+float angleConv = 4.074;
 
 void SetSpeed (int leftSpeed, int rightSpeed)
 {
@@ -36,10 +37,12 @@ void SetSpeedDir (int leftSpeed, char dirL, int rightSpeed, char dirR)
 	PR3 = rightSpeed*-53+60000;
 }
 
-void SetTurn (int speed, char direction, char angle)
+void SetTurn (int speed, char direction, int angle)
 {
 	resetDistances();
-	if((direction = 0)) //CW
+	unsigned int convertAngle;
+	convertAngle = (int)(angleConv * angle);
+	if((direction == 0)) //CW
 	{	
 		SetSpeedDir (speed, 0, speed, 1);
 	}
@@ -47,7 +50,7 @@ void SetTurn (int speed, char direction, char angle)
 	{
 		SetSpeedDir (speed, 1, speed, 0);
 	}
-	while(getDistanceL() < angle){} //keep turning on angle is reached
+	while(getDistanceL() < convertAngle){} //keep turning on angle is reached
 	
 	SetSpeed(0,0);
 }

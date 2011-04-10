@@ -20,6 +20,7 @@ _FWDT(WDTPOST_PS32768 & WDTPRE_PR128 & WINDIS_OFF & FWDTEN_OFF & PLLKEN_OFF)
 _FPOR(FPWRT_PWR128)
 _FICD(ICS_PGD2 & JTAGEN_OFF)
 
+unsigned int tempread = 0;
 int main(void)
 {	
 	Pin_Init();
@@ -31,8 +32,11 @@ int main(void)
 	{
 		start();
 	}	
+		//SetTurn(343, 0, 180);
 	while(1)
 	{
 		stateOfMarvin();
+	
+		//tempread = Adc_Read(LIGHT_RE);
 	}		
 }	
