@@ -10,7 +10,7 @@
 //timer5-status LED
 volatile unsigned int distanceL;
 volatile unsigned int distanceR;
-
+char switcher = 0;
 char tempCount = 0;
 
 void Timer_Init(void) //set up timers and interrupts
@@ -35,7 +35,7 @@ void Timer_Init(void) //set up timers and interrupts
 	T4CONbits.TGATE = 0;
 	T4CONbits.TCKPS = 0b11;	//prescaler 1:256
 	TMR4 = 0x00;
-	PR4 = 0x5C4B;	//Value to generate interrupt - Xsec
+	PR4 = 0x004E;	//Value to generate interrupt - 2msec, x2BF = 18ms
 	
 	//setup timer6 to count stuff (like start switch timing)
 	T6CONbits.TON = 0;
@@ -89,7 +89,7 @@ void Timer_Init(void) //set up timers and interrupts
 	IEC2bits.T6IE = 1;
 	
 	//Turn on timers
-	T4CONbits.TON = 1;
+//	T4CONbits.TON = 1;
 	T5CONbits.TON = 1;
 	T2CONbits.TON = 1;
 	T3CONbits.TON = 1;
@@ -117,7 +117,18 @@ void __attribute__((__interrupt__, auto_psv)) _T3Interrupt(void)
 //Relay
 void __attribute__((__interrupt__, no_auto_psv)) _T4Interrupt(void)
 {
-//	LED2=~LED2;
+	if(switcher == 0)
+	{
+		PR4 = 0x02BF;
+		RELAY = 1;
+		switcher = 1;
+	}
+	else
+	{
+		PR4 = 0x004E;
+		RELAY = 0;
+		switcher = 0;
+	}		
 	IFS1bits.T4IF = 0;
 }
 	

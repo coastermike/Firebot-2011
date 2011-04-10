@@ -20,7 +20,7 @@ _FWDT(WDTPOST_PS32768 & WDTPRE_PR128 & WINDIS_OFF & FWDTEN_OFF & PLLKEN_OFF)
 _FPOR(FPWRT_PWR128)
 _FICD(ICS_PGD2 & JTAGEN_OFF)
 
-unsigned int tempread = 0, tempread1 = 0;
+unsigned int tempread = 0, tempread1 = 0, tempread2 = 0;
 int main(void)
 {	
 	Pin_Init();
@@ -34,12 +34,19 @@ int main(void)
 		start();
 	}	
 	//SetTurn(343, 0, 180);
+	setMainState(201);
 	while(1)
 	{
-		//stateOfMarvin();
-		tempread = Adc_Read(IR_FR_R);
-		tempread = Adc_Read(IR_FR_R);
-		tempread1 = Adc_Read(IR_FR_L);
-		tempread1 = Adc_Read(IR_FR_L);
+		
+		stateOfMarvin();
+//		tempread = Adc_Read(FIRE_L);
+//		tempread = Adc_Read(FIRE_L);
+//		LED1=~LED1;
+//		tempread1 = Adc_Read(FIRE_M);
+//		tempread1 = Adc_Read(FIRE_M);
+//LED1=~LED1;
+//		tempread2 = Adc_Read(FIRE_R);
+//		tempread2 = Adc_Read(FIRE_R);
+//LED1=~LED1;
 	}		
 }	
