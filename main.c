@@ -26,17 +26,18 @@ int main(void)
 	Pin_Init();
 	Timer_Init();
 	Adc_Init();
+	calibrateSound();
 	PORTG = 0x0000;
 	//wait for start signal - sound for at elast 2 seconds or switch
 	while(!go())
 	{
 		start();
 	}	
-		//SetTurn(343, 0, 180);
+	//SetTurn(343, 0, 180);
 	while(1)
 	{
-		stateOfMarvin();
-	
-		//tempread = Adc_Read(LIGHT_RE);
+		//stateOfMarvin();
+		tempread = Adc_Read(SOUND);
+		tempread = Adc_Read(SOUND);
 	}		
 }	

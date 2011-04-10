@@ -133,11 +133,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T6Interrupt(void)
 	if(get_start_state() == 1 && tempCount == 0)
 	{
 		tempCount = 1;
-	}
-	else if(get_start_state() == 1 && tempCount == 1)
-	{
-		set_start_state(2);
-		tempCount = 0;
+		set_start_state(0);
 	}
 	if(get_start_state() == 4 && tempCount == 0)
 	{
