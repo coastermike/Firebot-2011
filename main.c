@@ -29,15 +29,28 @@ int main(void)
 	calibrateSound();
 	PORTG = 0x0000;
 	//wait for start signal - sound for at elast 2 seconds or switch
+	//***DEBUG********************
+//	setMainState(200);
+//	while(1)
+//	{
+//		stateOfMarvin();
+////		tempread = Adc_IR(IR_FR_L);
+////		tempread = Adc_IR(IR_FR_L);
+////		LED1=~LED1;
+////		tempread1 = Adc_IR(IR_FR_R);
+////		tempread1 = Adc_IR(IR_FR_R);
+////		LED1=~LED1;
+//	}
+	//*****************************
+		
 	while(!go())
 	{
 		start();
 	}	
 	//SetTurn(343, 0, 180);
-	setMainState(201);
+
 	while(1)
 	{
-		
 		stateOfMarvin();
 //		tempread = Adc_Read(FIRE_L);
 //		tempread = Adc_Read(FIRE_L);

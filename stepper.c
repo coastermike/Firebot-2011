@@ -170,9 +170,10 @@ void FollowRightWallMod (unsigned int speed)
 	
 	if(frontL < 15 && frontR < 15)
 	{
-		SetSpeedDir(660, 1, 660, 0);		
+		SetSpeed(0, 0);
+		setMainState(10);		
 	}	
-	else if(frontL < 15 || frontR < 15)
+	else if(frontR < 15)
 	{
 		SetSpeedDir(566, 0, speed, 0);
 	}

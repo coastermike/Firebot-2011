@@ -5,7 +5,7 @@
 #include "start_command.h"
 #include "timer.h"
 
-unsigned int state = 0;
+unsigned int state = 0, comingfrom = 0;
 unsigned int countLightL = 0, countLightR = 0, countLightRe = 0;
 const unsigned int NORMSPEED = 943;
 
@@ -76,11 +76,11 @@ void stateOfMarvin()
 				state = 2; //entered room one.
 				countLightRe = 0;
 			}
-			SetSpeedDir(NORMSPEED, 1, NORMSPEED, 1);	
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);	
 		}		
 		else
 		{
-			SetSpeedDir(NORMSPEED, 1, NORMSPEED, 1);
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);
 		}
 	}
 	else if (state == 2)
@@ -109,7 +109,71 @@ void stateOfMarvin()
 			frontRi = Adc_IR(IR_FR_R);
 			LED1 = ~LED1;
 		}
-		state = 3;	
+		comingfrom = 2;
+		if(state != 200)
+		{
+			state = 50;	
+		}	
+	}
+	else if (state == 50)
+	{
+		if((lightF_R > getLightR()) && get_start_state() != 4)
+		{		
+			if(lightF_R > getLightR())
+			{
+				countLightR++;
+			}
+			else
+			{
+				countLightR = 0;
+			}
+			if( countLightR > 10)  //countLightL > 10 ||
+			{
+				state = 51; //starting to enter room one.
+				countLightR = 0;
+			}
+			FollowRightWall(NORMSPEED);	
+		}		
+		else
+		{
+			FollowRightWall(NORMSPEED);
+		}	
+	}
+	else if (state == 51)
+	{
+		if(lightRe > getLightRe())
+		{		
+			if(lightRe > getLightRe())
+			{
+				countLightRe++;
+			}
+			else
+			{
+				countLightRe = 0;
+			}
+			if( countLightRe > 10)  //countLightL > 10 ||
+			{
+				if(comingfrom == 2)
+				{
+					state = 3; //leaving room one
+				}
+				else if(comingfrom == 5)
+				{
+					state = 6;
+				}
+				else if (comingfrom == 8)
+				{
+					state = 9;
+				}
+						
+				countLightRe = 0;
+			}
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);	
+		}		
+		else
+		{
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);
+		}
 	}	
 	else if (state == 3) //looking for second room
 	{
@@ -152,11 +216,11 @@ void stateOfMarvin()
 				state = 5; //entered room two.
 				countLightRe = 0;
 			}
-			SetSpeedDir(NORMSPEED, 1, NORMSPEED, 1);	
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);	
 		}		
 		else
 		{
-			SetSpeedDir(NORMSPEED, 1, NORMSPEED, 1);
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);
 		}
 	}
 	else if (state == 5)
@@ -185,7 +249,11 @@ void stateOfMarvin()
 			frontRi = Adc_IR(IR_FR_R);
 			LED1 = ~LED1;
 		}
-		state = 6;	
+		comingfrom = 5;
+		if(state != 200)
+		{
+			state = 50;	
+		}	
 	}
 	else if (state == 6) //looking for room 3
 	{
@@ -228,11 +296,11 @@ void stateOfMarvin()
 				state = 8; //entered room three.
 				countLightRe = 0;
 			}
-			SetSpeedDir(NORMSPEED, 1, NORMSPEED, 1);	
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);	
 		}		
 		else
 		{
-			SetSpeedDir(NORMSPEED, 1, NORMSPEED, 1);
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);
 		}
 	}
 	else if (state == 8) //look for fire in room 3
@@ -261,11 +329,86 @@ void stateOfMarvin()
 			frontRi = Adc_IR(IR_FR_R);
 			LED1 = ~LED1;
 		}
-		state = 9;
+		comingfrom = 8;
+		if(state != 200)
+		{
+			state = 50;	
+		}
 	}		
 	else if(state == 9)
 	{
 		FollowRightWallMod(NORMSPEED);
+	}
+	else if (state == 10)
+	{
+		SetTurn(800, 1, 90);
+		resetDistances();
+		SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);
+		while(getDistanceL() < 200){};
+		SetTurn(800, 1, 90);
+		resetDistances();
+		SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);
+		while(getDistanceL() < 800){};
+		state = 11;
+	}
+	else if(state == 11)
+	{
+		if(lightF_R > getLightR())
+		{		
+			if(lightF_R > getLightR())
+			{
+				countLightR++;
+			}
+			else
+			{
+				countLightR = 0;
+			}
+			if( countLightR > 10)  //countLightL > 10 ||
+			{
+				state = 12; //starting to enter room three.
+				countLightR = 0;
+			}
+			FollowRightWall(NORMSPEED);	
+		}		
+		else
+		{
+			FollowRightWall(NORMSPEED);
+		}
+	}	
+	else if(state == 12)
+	{
+		if(lightRe > getLightRe())
+		{		
+			if(lightRe > getLightRe())
+			{
+				countLightRe++;
+			}
+			else
+			{
+				countLightRe = 0;
+			}
+			if( countLightRe > 10)  //countLightL > 10 ||
+			{
+				state = 13; //entered room three.
+				countLightRe = 0;
+			}
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);	
+		}		
+		else
+		{
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);
+		}
+	}	
+	else if(state == 13)
+	{
+		resetDistances();
+		while(getDistanceL() < 200)
+		{
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);		//needs to move in further
+		}	
+		SetSpeed(0,0);
+		SetTurnFire(NORMSPEED-200, 0, 630);	
+		SetSpeed(0,0);
 	}	
 	else if (state == 100)
 	{
@@ -280,28 +423,42 @@ void stateOfMarvin()
 			SetSpeed(0,0);
 			state = 201;
 		}	
-		if(fireL < 1200)
+		else if(fireL < 1200)
 		{
-			SetSpeedDir(NORMSPEED, 1, NORMSPEED-200, 1);
+			SetSpeedDir(NORMSPEED, 0, NORMSPEED-600, 0);
 		}	
 		else if(fireR < 1200)
 		{
-			SetSpeedDir(NORMSPEED - 200, 1, NORMSPEED, 1);
+			SetSpeedDir(NORMSPEED - 600, 0, NORMSPEED, 0);
 		}
+		else
+		{
+			SetSpeedDir(NORMSPEED-300, 0, NORMSPEED-300, 1);
+		}	
 			
 	}
 	else if (state == 201) //relay on while fire
 	{
-		if(fireL > 1500 && fireR > 1500 && fireM > 1500)
+		if(fireL > 800 && fireR > 800)		// && fireM > 1500)
 		{
-			T4CONbits.TON = 1;
+			T4CONbits.TON = 0;
 			SetSpeedDir(NORMSPEED, 1, NORMSPEED, 0);
 		}
-		else
+		else if(fireL < 800 && fireR < 800)
 		{
 			SetSpeed(0, 0);
 			T4CONbits.TON = 1;
-		}		
+			SetTurn(800, 1, 30);
+			SetTurn(800, 0, 60);
+			SetTurn(800, 1, 60);
+			SetTurn(800, 0, 30);
+			SetSpeed(0,0);	
+		}	
+		else
+		{
+			LEDError = 1;
+		}	
+			
 	}	
 	else
 	{

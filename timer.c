@@ -120,13 +120,13 @@ void __attribute__((__interrupt__, no_auto_psv)) _T4Interrupt(void)
 	if(switcher == 0)
 	{
 		PR4 = 0x02BF;
-		RELAY = 1;
+		RELAY = 0;
 		switcher = 1;
 	}
 	else
 	{
 		PR4 = 0x004E;
-		RELAY = 0;
+		RELAY = 1;
 		switcher = 0;
 	}		
 	IFS1bits.T4IF = 0;
