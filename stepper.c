@@ -121,13 +121,13 @@ void FollowRightWall (unsigned int speed)
 	leftR = Adc_IR(IR_LE_R);
 	LED1=~LED1;
 	
-	if(frontL < 15 && frontR < 15)
+	if(frontL < 17 && frontR < 17)
 	{
 		SetSpeedDir(660, 1, 660, 0);		
 	}	
-	else if(frontL < 15 || frontR < 15)
+	else if(frontL < 17 || frontR < 17)
 	{
-		SetSpeedDir(566, 0, speed, 0);
+		SetSpeedDir(250, 0, speed, 0);
 	}
 	else if(rightF > 11)
 	{

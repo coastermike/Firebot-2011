@@ -143,7 +143,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T6Interrupt(void)
 {
 	if(get_start_state() == 1 && tempCount == 0)
 	{
-		tempCount = 1;
+		tempCount = 0;
 		set_start_state(0);
 	}
 	if(get_start_state() == 4 && tempCount == 0)
@@ -153,9 +153,26 @@ void __attribute__((__interrupt__, no_auto_psv)) _T6Interrupt(void)
 	else if (get_start_state() == 4 && tempCount == 1)
 	{
 		set_start_state(5);
-		tempCount = 0;
+		tempCount = 2;
 		setMainState(100);
-	}	
+	}
+//	else if (tempCount == 2)
+//	{
+//		tempCount = 3;
+//	}
+//	else if (tempCount == 3)
+//	{
+//		tempCount = 4;
+//	}
+//	else if (tempCount == 4)
+//	{
+//		tempCount = 5;
+//	}
+//	else if(tempCount == 5)
+//	{
+//		tempCount = 0;
+//		setMainState(40);
+//	}		
 	IFS2bits.T6IF = 0;
 }
 	
