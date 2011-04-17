@@ -5,14 +5,14 @@
 #include "start_command.h"
 #include "timer.h"
 
-unsigned int state = 0, comingfrom = 0;
+unsigned int state = 0, comingfrom = 0, spray = 0;
 unsigned int countLightL = 0, countLightR = 0, countLightRe = 0;
 const unsigned int NORMSPEED = 943;
 
 void stateOfMarvin()
 {
 	unsigned int fireL = 0, fireR = 0, fireM = 0, lightF_R = 0, lightRe = 0;
-	unsigned int frontLe = 0, frontRi = 0;
+	unsigned int frontLe = 0, frontRi = 0, leftFr = 0, rightFr = 0;
 	//always read light sensors
 	lightF_R = Adc_Read(LIGHT_R);
 	lightF_R = Adc_Read(LIGHT_R);
@@ -32,6 +32,12 @@ void stateOfMarvin()
 		LED1=~LED1;
 		fireR = Adc_Read(FIRE_R);
 		fireR = Adc_Read(FIRE_R);
+		LED1=~LED1;
+		leftFr = Adc_IR(IR_LE_F);
+		leftFr = Adc_IR(IR_LE_F);
+		LED1=~LED1;
+		rightFr = Adc_IR(IR_RI_F);
+		rightFr = Adc_IR(IR_RI_F);
 		LED1=~LED1;
 	}
 	
@@ -108,7 +114,7 @@ void stateOfMarvin()
 			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);		//needs to move in further
 		}	
 		SetSpeed(0,0);
-		SetTurnFire(NORMSPEED-200, 0, 650);			//IF FIRE: goto fire state
+		SetTurnFire(NORMSPEED-200, 0, 60);			//IF FIRE: goto fire state
 		frontLe = Adc_IR(IR_FR_L);
 		frontLe = Adc_IR(IR_FR_L);
 		LED1 = ~LED1;
@@ -117,6 +123,7 @@ void stateOfMarvin()
 		LED1 = ~LED1;
 		if(state != 200)
 		{
+			SetTurn(NORMSPEED-200, 0, 260);
 			while(frontLe > 17 && frontRi > 17)
 			{
 				SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);
@@ -209,16 +216,24 @@ void stateOfMarvin()
 				state = 201; 
 				countLightR = 0;
 			}	
-		}	
-		if (fireL < 1100 && fireR < 1100)
+		}
+		if(leftFr < 6)
+		{
+			SetSpeedDir(NORMSPEED-200, 0, NORMSPEED-200, 1);
+		}
+		else if(rightFr < 5)
+		{
+			SetSpeedDir(NORMSPEED-200, 1, NORMSPEED-200, 0);
+		}		
+		else if (fireL < 1000 && fireR < 1000)
 		{
 			SetSpeedDir(NORMSPEED, 0, NORMSPEED, 0);
 		}	
-		else if(fireL < 1100)
+		else if(fireL < 1000)
 		{
 			SetSpeedDir(NORMSPEED, 0, NORMSPEED-600, 0);
 		}	
-		else if(fireR < 1100)
+		else if(fireR < 1000)
 		{
 			SetSpeedDir(NORMSPEED - 600, 0, NORMSPEED, 0);
 		}
@@ -235,15 +250,27 @@ void stateOfMarvin()
 			T4CONbits.TON = 0;
 			SetSpeedDir(NORMSPEED, 1, NORMSPEED, 0);
 		}
-		else if(fireL < 801 && fireR < 801)
+		else if(fireL < 801 && fireR < 801 && spray == 0)
 		{
 			SetSpeed(0, 0);
 			T4CONbits.TON = 1;
 			SetTurn(800, 1, 30);
-			SetTurn(800, 0, 60);
-			SetTurn(800, 1, 60);
+			SetTurn(800, 0, 70);
+			SetTurn(800, 1, 70);
 			SetTurn(800, 0, 30);
-			SetSpeed(0,0);	
+			SetSpeed(0,0);
+			spray = 1;	
+		}
+		else if(fireL < 801 && fireR < 801 && spray == 1)
+		{
+			SetSpeed(0, 0);
+			T4CONbits.TON = 1;
+			SetTurn(800, 0, 40);
+			SetTurn(800, 1, 70);
+			SetTurn(800, 0, 70);
+			SetTurn(800, 1, 40);
+			SetSpeed(0,0);
+			spray = 0;
 		}
 		else if(fireL > 800)
 		{
